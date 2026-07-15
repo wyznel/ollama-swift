@@ -1,3 +1,7 @@
+> [!NOTE]
+> This fork changes how `Client.pullModel()` works.
+> It now returns a stream which shows current download progress.
+
 # Ollama Swift Client
 
 A Swift client library for interacting with the
