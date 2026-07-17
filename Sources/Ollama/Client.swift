@@ -925,13 +925,6 @@ extension Client {
 
 // MARK: - Pull Model
 
-public struct PullProgress: Decodable, Sendable {
-    public let status: String
-    public let digest: String?
-    public let total: Int?
-    public let completed: Int?
-}
-
 extension Client {
     /// Downloads a model from the Ollama library.
     ///
@@ -945,13 +938,15 @@ extension Client {
     public func pullModel(
         _ id: Model.ID,
         insecure: Bool = false
-    ) -> AsyncThrowingStream<PullProgress, Swift.Error> {
+    )
+        async throws -> Bool
+    {
         let params: [String: Value] = [
             "name": .string(id.rawValue),
             "insecure": .bool(insecure),
-            "stream": true,
+            "stream": false,
         ]
-        return fetchStream(.post, "/api/pull", params: params)
+        return try await fetch(.post, "/api/pull", params: params)
     }
 }
 
